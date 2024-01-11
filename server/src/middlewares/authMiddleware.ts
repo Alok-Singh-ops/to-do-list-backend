@@ -20,9 +20,6 @@ export function authenticate(
     const emailId = decoded.emailId;
     const expirationTime = decoded.exp ? decoded.exp * 1000 : 0;
     // Check if the token has expired
-    if (expirationTime && Date.now() > expirationTime) {
-      throw new Error("Unauthorized - Token has expired. Please login again.");
-    }
     const user = userManager.findUserById(emailId);
     if (!user) {
       throw new Error("Unauthorized - User not found");
@@ -34,8 +31,6 @@ export function authenticate(
     // Log the error for debugging purposes
     console.error(error);
     // Send a 401 response only if the response hasn't been sent yet
-    if (!res.headersSent) {
-      res.status(401).send(error.message);
-    }
+    res.status(401).send(error.message);
   }
 }

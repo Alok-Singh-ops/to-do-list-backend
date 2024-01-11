@@ -18,6 +18,13 @@ export class UserController {
   ): void {
     try {
       const { emailId, password, name } = req.body;
+      const foundUser = userManager.findUser(emailId);
+      //if user already present in the database
+      if (foundUser) {
+        res.status(409).send("User already present");
+        return;
+      }
+      
       const hashedPassword = UserController.hashPassword(password);
       const newUser: User = {
         emailId,

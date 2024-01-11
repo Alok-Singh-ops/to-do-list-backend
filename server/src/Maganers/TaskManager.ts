@@ -28,4 +28,14 @@ export class TaskManager {
     const foundUser = userManager.findUser(emailId);
     return foundUser.tasks;
   }
+
+  private getTaskById(taskId: string, emailId: string): Task {
+    const user = userManager.findUser(emailId);
+    return user.tasks.find((task) => task.taskId === taskId);
+  }
+
+  public deleteTask(taskId: string, emailId: string) {
+    const user = userManager.findUser(emailId);
+    return user.tasks.filter((task) => task.taskId !== taskId);
+  }
 }
